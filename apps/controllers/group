@@ -1,0 +1,106 @@
+import requests
+import json
+
+apikey = '123'
+host = 'http://localhost:3333'
+
+def create_group():
+
+    url = f"{host}/group/create?key={apikey}"
+    payload = {}
+    headers = {}
+    response = requests.request("POST", url, headers=headers, data=payload)
+    print(response.text)
+
+def leave_group():
+    
+    url = f"{host}/group/leave?key={apikey}&id"
+    payload = {}
+    headers = {}
+    response = requests.request("GET", url, headers=headers, data=payload)
+    print(response.text)
+
+def get_all_groups():
+
+    url = f"{host}/group/listall?key={apikey}"
+    payload = {}
+    headers = {}
+    response = requests.request("GET", url, headers=headers, data=payload)
+    print(response.text)
+
+def invite_user():
+
+    url = f"{host}/group/inviteuser?key={apikey}"
+    payload = 'id=&users='
+    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+    response = requests.request("POST", url, headers=headers, data=payload)
+    print(response.text)
+
+def make_admin():
+
+    url = f"{host}/group/makeadmin?key={apikey}"
+    payload = 'id=&users='
+    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+    response = requests.request("POST", url, headers=headers, data=payload)
+    print(response.text)
+
+def demote_admin():
+
+    url = f"{host}/group/demoteadmin?key={apikey}"
+    payload = 'id=&users='
+    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+    response = requests.request("POST", url, headers=headers, data=payload)
+    print(response.text)
+
+def get_group_Invite_code():
+
+    url = f"{host}/group/getinvitecode?key={apikey}&id"
+    payload = {}
+    headers = {}
+    response = requests.request("GET", url, headers=headers, data=payload)
+    print(response.text)
+
+def get_all_groups():
+
+    url = f"{host}/group/getallgroups?key={àpikey}"
+    payload = {}
+    headers = {}
+    response = requests.request("GET", url, headers=headers, data=payload)
+    print(response.text)
+
+def update_group_participants():
+
+    url = f"{host}/group/participantsupdate?key={apikey}"
+    payload = {'id': '','users': '','action': ''}
+    files=[]
+    headers = {}
+    response = requests.request("POST", url, headers=headers, data=payload, files=files)
+    print(response.text)
+
+def update_group_settings():
+
+    url = f"{host}/group/participantsupdate?key={apikey}"
+    payload = {'id': '','users': '','action': ''}
+    files=[]
+    headers = {}
+    response = requests.request("POST", url, headers=headers, data=payload, files=files)
+    print(response.text)
+
+def update_group_subject():
+
+    url = f"{host}/group/updatesubject?key={apikey}"
+    payload = {'id': '','subject': ''}
+    files=[]
+    headers = {}
+    response = requests.request("POST", url, headers=headers, data=payload, files=files)
+
+    print(response.text)
+
+def update_gtoup_description():
+
+    url = f"{host}/group/updatedescription?key={apikey}"
+    payload = {'id': '','description': ''}
+    files=[]
+    headers = {}
+    response = requests.request("POST", url, headers=headers, data=payload, files=files)
+    print(response.text)
