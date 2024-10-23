@@ -1,0 +1,29 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Maps {% endblock title %}
+
+{% block content %}
+
+<style>
+    .content {
+        text-align: center;
+    }
+    img {
+        margin-top: 20px; /* Ajuste conforme necessário */
+    }
+</style>
+
+<div class="content">
+    <h1>Escaneie o QR code para começar e recarregue a página</h1>
+
+    <!-- Exibindo a imagem base64 -->
+    <img src="{{ imagem_base64 }}" alt="Imagem">
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+
+{% endblock javascripts %}

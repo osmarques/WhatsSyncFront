@@ -1,0 +1,41 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Maps {% endblock title %}
+
+{% block content %}
+
+
+ 
+  <div id = "conteudo"></div>
+
+                  
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+<script>
+  function atualizarPagina() {
+      $.ajax({
+          url: "{% url 'mensagens' %}",  // Update the URL to the correct endpoint
+          method: "GET",
+          dataType: "html",
+          success: function(data) {
+              // Update the content of the div with the received data
+              $("#conteudo").html(data);
+          },
+          complete: function() {
+              // Schedule the next update after a time interval
+              setTimeout(atualizarPagina, 5000);  // 5000 milliseconds = 5 seconds
+          }
+      });
+  }
+
+  // Start the update process when the document is ready
+  $(document).ready(function() {
+      atualizarPagina();
+  });
+</script>
+
+{% endblock javascripts %}

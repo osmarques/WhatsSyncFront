@@ -1,0 +1,188 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Maps {% endblock title %}
+
+{% block content %}
+<style>
+  .liSelecionada {
+    background-color: hsl(240, 12%, 80%); /* Cor de fundo para indicar seleção */
+  }
+</style>
+
+    <!-- Header -->
+
+    <!-- Page content -->
+            <section style="background-color: #eee;">
+            
+                <div class="row">
+            
+                  <div class="col-md-6 col-lg-5 col-xl-4 no-spacing">
+                    <div class="card-body bg-white" style="width: 100%; height: 100%;">
+                        <ul class="minhaLista mb-0" style="height: 800px; overflow-y: auto;">
+                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                            Nova mensagem
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                  <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel">Formulário</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                          <span aria-hidden="true">&times;</span>
+                                      </button>
+                                  </div>
+                                  <div class="modal-body">
+                                      <form method="post" action="{% url 'chat' %}" enctype="multipart/form-data">
+                                          <!-- Campo Número de Telefone (obrigatório) -->
+                                          <div class="mb-3">
+                                              <label for="telefone" class="form-label">Número de Telefone:</label>
+                                              <input type="tel" class="form-control" id="telefone" name="telefone" required>
+                                          </div>
+
+                                          <!-- Campo Mensagem (obrigatório) -->
+                                          <div class="mb-3">
+                                              <label for="mensagem" class="form-label">Mensagem:</label>
+                                              <textarea class="form-control" id="mensagem" name="mensagem" rows="3" required></textarea>
+                                          </div>
+
+                                          <!-- Botão de Enviar -->
+                                          <div class="mb-3">
+                                              <button type="submit" class="btn btn-primary ms-2">
+                                                  Enviar
+                                              </button>
+                                          </div>
+                                      </form>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+
+                          {{menu | safe}}
+                        </ul>
+            
+                      </div>
+                 
+            
+                  </div>
+            
+                  <div class="col-md-4 col-lg-7 col-xl-8 fixed-container">
+                    <ul class="list-unstyled" style="height: 780px; overflow-y: auto;">
+                      <div id="conteudo">
+                        <!-- Conteúdo da sua div -->
+                      </div>
+                    </ul>
+                    <div class="fixed-form">
+
+                          
+                          <div class="form-group d-flex mt-3">
+
+                            <form method="post" action="{% url 'chat' %}" enctype="multipart/form-data" id="meuFormulario" class="form-inline">
+                              {% csrf_token %}
+                              
+                              <!-- Dropdown com opções -->
+                              <div class="btn-group">
+                                <button class="btn btn-secondary btn-md" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <i class="fas fa-paperclip"></i> <!-- Ícone de clipe de papel do Font Awesome -->
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <label class="dropdown-item">
+                                    <i class="fas fa-file-audio"></i> Áudio
+                                    <input type="file" accept=".mp3" style="display: none;">
+                                  </label>
+                                  <label class="dropdown-item">
+                                    <i class="fas fa-image"></i> Imagem
+                                    <input type="file" accept="image/*" style="display: none;">
+                                  </label>
+                                </div>
+                              </div>
+                            
+                              {{ formulario.mensagem }}
+                              <input type="hidden" name="minhaVariavel" id="minhaVariavelInput">
+                            
+                              <!-- Botão de Enviar -->
+                              <button type="submit" class="btn btn-primary btn-md">
+                                <i class="fas fa-paper-plane"></i> <!-- Ícone de avião de papel do Font Awesome -->
+                              </button>
+                            </form>
+                            
+                            
+                  </div>
+                  
+                    </div>
+                  </div>
+                </div>
+            </section>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js" integrity="sha384-B6Q1SSa4GNyzxuJgmZEwX2wbpFVdbt8Z1cpQMyjYOe9sB8L2tCdzKg7ozjN3bIel" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyBk4Fp5aYs9M5L3G0boDivojXusF2xG9S" crossorigin="anonymous"></script>
+<script>
+  // Função para selecionar a li e atualizar a página
+  function selecionarLi(elemento) {
+    // Remove a classe de seleção de todas as li's
+    $(".itemLi").removeClass("liSelecionada");
+
+    // Adiciona a classe de seleção apenas à li clicada
+    $(elemento).addClass("liSelecionada");
+
+    // Chama a função de atualização
+    atualizarPagina();
+  }
+
+  // Função para atualizar a página
+  function atualizarPagina() {
+    // Extrai o valor da variável da li que estiver selecionada
+    var minhaVariavel = $(".liSelecionada").text();
+
+    $.ajax({
+      url: "{% url 'mensagens' %}",
+      method: "POST",
+      dataType: "html",
+      data: { minhaVariavel: minhaVariavel },
+      success: function(data) {
+        $("#conteudo").html(data);
+      },
+      complete: function() {
+        // Agende a próxima atualização após um intervalo de tempo
+        setTimeout(atualizarPagina, 5000);  // 5000 milissegundos = 5 segundos
+      }
+    });
+  }
+
+  // Espera que o conteúdo seja totalmente carregado
+  $(document).ready(function () {
+    // Obtém a lista de conteúdo
+    var listaConteudo = $("#lista-conteudo");
+
+    // Define a posição da barra de rolagem para o final
+    listaConteudo.scrollTop(listaConteudo.prop("scrollHeight"));
+  });
+
+  function selecionarLi(elemento) {
+    $(".itemLi").removeClass("liSelecionada");
+    $(elemento).addClass("liSelecionada");
+
+    // Atualize o valor do campo oculto com o texto da li selecionada
+    $("#minhaVariavelInput").val($(".liSelecionada").text());
+
+    atualizarPagina();
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("meuFormulario").addEventListener("keydown", function(event) {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        this.submit();
+      }
+    });
+  });
+</script>
+{% endblock javascripts %}
+
+ 

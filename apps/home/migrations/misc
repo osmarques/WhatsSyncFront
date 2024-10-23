@@ -1,0 +1,46 @@
+import requests
+import json
+
+apikey = '123'
+host = 'localhost:3333'
+
+def is_on_whatsapp():
+
+    url = f"{host}/misc/onwhatsapp?key={apikey}&id="
+    payload = {}
+    headers = {}
+    response = requests.request("GET", url, headers=headers, data=payload)
+    print(response.text)
+
+def downaload_profile_pic():
+
+    url = f"{host}/misc/downProfile?key={apikey}&id="
+    payload = {}
+    headers = {}
+    response = requests.request("GET", url, headers=headers, data=payload)
+    print(response.text)
+
+def get_user_status():
+
+    url = f"{host}/misc/getStatus?key={apikey}&id="
+    payload = {}
+    headers = {}
+    response = requests.request("GET", url, headers=headers, data=payload)
+    print(response.text)
+
+def block_user():
+
+    url = f"{host}/misc/blockUser?key={apikey}&id"
+    payload = {}
+    headers = {}
+    response = requests.request("GET", url, headers=headers, data=payload)
+    print(response.text)
+
+def update_profile_picture():
+
+    url = f"{host}/misc/updateProfilePicture?key={apikey}"
+    payload = {'id': '','url': ''}
+    files=[]
+    headers = {}
+    response = requests.request("POST", url, headers=headers, data=payload, files=files)
+    print(response.text)
